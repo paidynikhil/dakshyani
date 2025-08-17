@@ -26,6 +26,7 @@ export const getAllLehengas = async (req, res) => {
       occasions = [],
       workTypes = [],
       colors = [],
+      sizes = [],
       minPrice,
       maxPrice,
       inStockOnly = false,
@@ -38,19 +39,26 @@ export const getAllLehengas = async (req, res) => {
       maxPrice ? +maxPrice : 1000000,
     ];
 
-    const result = await getAllLehengasService(
-      +page,
-      +limit,
-      search,
-      Array.isArray(styles) ? styles : [styles],
-      Array.isArray(occasions) ? occasions : [occasions],
-      Array.isArray(workTypes) ? workTypes : [workTypes],
-      Array.isArray(colors) ? colors : [colors],
-      priceRange,
-      inStockOnly === "true" || inStockOnly === true,
-      newArrivalsOnly === "true" || newArrivalsOnly === true,
-      sortBy
-    );
+    const parseArray = (val) => {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  return val.split(",").map(v => v.trim()).filter(Boolean);
+};
+
+const result = await getAllLehengasService(
+  +page,
+  +limit,
+  search,
+  parseArray(styles),
+  parseArray(occasions),
+  parseArray(workTypes),
+  parseArray(colors),
+  parseArray(sizes),  // ✅ now ["M","S"] not ["M,S"]
+  priceRange,
+  inStockOnly === "true" || inStockOnly === true,
+  newArrivalsOnly === "true" || newArrivalsOnly === true,
+  sortBy
+);
 
     res.status(200).json({
       success: true,

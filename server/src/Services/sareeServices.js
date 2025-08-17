@@ -35,23 +35,35 @@ export const getAllSareesService = async (
 ) => {
   const query = {};
 
-  // Search
+  // Search conditions
+  const searchConditions = [];
   if (search) {
-    query.$or = [
+    searchConditions.push(
       { title: { $regex: search, $options: "i" } },
       { description: { $regex: search, $options: "i" } },
-      { brand: { $regex: search, $options: "i" } },
-    ];
+      { brand: { $regex: search, $options: "i" } }
+    );
   }
 
-  // Filters
-  if (types.length) query.type = { $in: types };
-  if (colors.length) query.color = { $in: colors };
-  if (occasions.length) query.occasion = { $in: occasions };
-  if (patterns.length) query.pattern = { $in: patterns };
-  if (!showOutOfStock) query.inStock = true;
-  if (onlyFastDelivery) query.fastDelivery = true;
-  query.price = { $gte: priceRange[0], $lte: priceRange[1] };
+  // Filter conditions
+  const orConditions = [];
+  if (types.length) orConditions.push({ type: { $in: types } });
+  if (colors.length) orConditions.push({ color: { $in: colors } });
+  if (occasions.length) orConditions.push({ occasion: { $in: occasions } });
+  if (patterns.length) orConditions.push({ pattern: { $in: patterns } });
+  if (!showOutOfStock) orConditions.push({ inStock: true });
+  if (onlyFastDelivery) orConditions.push({ fastDelivery: true });
+
+  // Always apply price
+  const priceCondition = { price: { $gte: priceRange[0], $lte: priceRange[1] } };
+
+  // Final query
+  query.$and = [priceCondition];
+  if (searchConditions.length || orConditions.length) {
+    query.$and.push({
+      $or: [...searchConditions, ...orConditions],
+    });
+  }
 
   // Sorting
   let sortQuery = {};
@@ -72,7 +84,7 @@ export const getAllSareesService = async (
       sortQuery.createdAt = -1;
       break;
     default:
-      sortQuery.rating = -1;
+      sortQuery.rating = -1; // popularity = rating by default
   }
 
   const sarees = await Saree.find(query)
@@ -81,7 +93,7 @@ export const getAllSareesService = async (
     .limit(limit)
     .lean();
 
-  const total = await Saree.countDocuments(query); // total items for pagination
+  const total = await Saree.countDocuments(query);
 
   return {
     sarees,

@@ -27,7 +27,7 @@ const Lehengas: React.FC = () => {
     workType: '',
     sizes: [],
     inStock: true,
-    fastDelivery: false,
+    isFastDelivery: false,
     isBestseller: false,
     isNew: false,
     brand: '',
@@ -47,7 +47,7 @@ const Lehengas: React.FC = () => {
       workType: '',
       sizes: [],
       inStock: true,
-      fastDelivery: false,
+      isFastDelivery: false,
       isBestseller: false,
       isNew: false,
       brand: '',
@@ -254,7 +254,7 @@ const Lehengas: React.FC = () => {
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-gray-600">{product.workType}</span>
-          {product.fastDelivery && (
+          {product.isFastDelivery && (
             <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Fast Delivery</span>
           )}
         </div>
@@ -605,8 +605,8 @@ const Lehengas: React.FC = () => {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={formData.fastDelivery}
-                        onChange={(e) => setFormData({ ...formData, fastDelivery: e.target.checked })}
+                        checked={formData.isFastDelivery}
+                        onChange={(e) => setFormData({ ...formData, isFastDelivery: e.target.checked })}
                         className="h-4 w-4 text-maroon-600 focus:ring-maroon-500 border-gray-300 rounded"
                       />
                       <span className="ml-2 text-sm text-gray-700">Fast Delivery</span>
@@ -620,6 +620,7 @@ const Lehengas: React.FC = () => {
                       />
                       <span className="ml-2 text-sm text-gray-700">Bestseller</span>
                     </label>
+
                     <label className="flex items-center">
                       <input
                         type="checkbox"

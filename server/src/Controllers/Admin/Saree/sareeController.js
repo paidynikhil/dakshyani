@@ -16,16 +16,22 @@ export const createSaree = async (req, res) => {
   }
 };
 
+const parseArray = (val) => {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  return val.split(",").map(v => v.trim()).filter(Boolean);
+};
+
 export const getAllSarees = async (req, res) => {
   try {
     const {
       page = 1,
       limit = 10,
       search,
-      types = [],
-      colors = [],
-      occasions = [],
-      patterns = [],
+      types,
+      colors,
+      occasions,
+      patterns,
       minPrice,
       maxPrice,
       showOutOfStock = true,
@@ -42,10 +48,10 @@ export const getAllSarees = async (req, res) => {
       +page,
       +limit,
       search,
-      Array.isArray(types) ? types : [types],
-      Array.isArray(colors) ? colors : [colors],
-      Array.isArray(occasions) ? occasions : [occasions],
-      Array.isArray(patterns) ? patterns : [patterns],
+      parseArray(types),
+      parseArray(colors),
+      parseArray(occasions),
+      parseArray(patterns),
       priceRange,
       showOutOfStock === "true" || showOutOfStock === true,
       onlyFastDelivery === "true" || onlyFastDelivery === true,
@@ -62,6 +68,7 @@ export const getAllSarees = async (req, res) => {
     return handleControllerError(res, error);
   }
 };
+
 
 export const getSareeById = async (req, res) => {
   try {

@@ -29,6 +29,7 @@ export const getAllLehengasService = async (
   occasions = [],
   workTypes = [],
   colors = [],
+  sizes = [],
   priceRange = [0, Number.MAX_SAFE_INTEGER],
   inStockOnly = false,
   newArrivalsOnly = false,
@@ -37,22 +38,35 @@ export const getAllLehengasService = async (
   const query = {};
 
   // Search in title, description, brand
+  const searchConditions = [];
   if (search) {
-    query.$or = [
+    searchConditions.push(
       { title: { $regex: search, $options: "i" } },
       { description: { $regex: search, $options: "i" } },
-      { brand: { $regex: search, $options: "i" } },
-    ];
+      { brand: { $regex: search, $options: "i" } }
+    );
   }
 
-  // Filters
-  if (styles.length) query.style = { $in: styles };
-  if (occasions.length) query.occasion = { $in: occasions };
-  if (workTypes.length) query.workType = { $in: workTypes };
-  if (colors.length) query.color = { $in: colors };
-  if (inStockOnly) query.inStock = true;
-  if (newArrivalsOnly) query.isNew = true;
-  query.price = { $gte: priceRange[0], $lte: priceRange[1] };
+  // Collect OR conditions for filters
+  const orConditions = [];
+  if (styles.length) orConditions.push({ style: { $in: styles } });
+  if (occasions.length) orConditions.push({ occasion: { $in: occasions } });
+  if (workTypes.length) orConditions.push({ workType: { $in: workTypes } });
+  if (colors.length) orConditions.push({ color: { $in: colors } });
+  if (sizes.length) orConditions.push({ sizes: { $in: sizes } }); // ✅ plural
+  if (inStockOnly) orConditions.push({ inStock: true });
+  if (newArrivalsOnly) orConditions.push({ isNew: true });
+
+  // Always enforce price condition
+  const priceCondition = { price: { $gte: priceRange[0], $lte: priceRange[1] } };
+
+  // Build final query
+  query.$and = [priceCondition];
+  if (searchConditions.length || orConditions.length) {
+    query.$and.push({
+      $or: [...searchConditions, ...orConditions],
+    });
+  }
 
   // Sorting
   let sortQuery = {};
@@ -70,12 +84,11 @@ export const getAllLehengasService = async (
       sortQuery.discount = -1;
       break;
     case "newest":
-      sortQuery.createdAt = -1;
-      break;
     default:
-      sortQuery.createdAt = -1; // default newest
+      sortQuery.createdAt = -1;
   }
 
+  // Query DB
   const lehengas = await Lehenga.find(query)
     .sort(sortQuery)
     .skip((page - 1) * limit)

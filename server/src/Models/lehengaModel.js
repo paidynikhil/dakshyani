@@ -14,6 +14,7 @@ const lehengaSchema = new mongoose.Schema({
   rating: { type: Number, default: 0 },
   reviews: { type: Number, default: 0 },
   sizes: [{ type: String }],
+  isFastDelivery: { type: Boolean, default: false },
   inStock: { type: Boolean, default: true },
   isNew: { type: Boolean, default: false },
   isBestseller: { type: Boolean, default: false },

@@ -33,6 +33,7 @@ export interface SareeProduct {
 }
 
 export interface LehengaProduct {
+  _id: string;
   id: number;
   image: string;
   title: string;
@@ -50,6 +51,7 @@ export interface LehengaProduct {
   inStock: boolean;
   isNew: boolean;
   isBestseller: boolean;
+  isFastDelivery: boolean;
   brand: string;
   category: string;
 }
