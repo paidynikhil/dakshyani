@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quote Response - Axinova</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: auto;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #007bff;
+      }
+
+      p {
+        margin-bottom: 10px;
+      }
+
+      .label {
+        font-weight: bold;
+      }
+
+      .footer {
+        font-size: 12px;
+        text-align: center;
+        margin-top: 30px;
+        color: #999;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Hello {{firstName}} {{lastName}},</h2>
+
+      <p>Thank you for contacting <strong>Axinova</strong>. Here’s the response to your quote request:</p>
+
+      <p><span class="label">Quote ID:</span> {{quoteId}}</p>
+      <p><span class="label">Company:</span> {{companyName}}</p>
+      <p><span class="label">Requested Services:</span> {{services}}</p>
+      <p><span class="label">Project Details:</span> {{projectDetails}}</p>
+      <p><span class="label">Response Message:</span> {{responseMessage}}</p>
+      <p><span class="label">Date:</span> {{date}}</p>
+
+      <p>We appreciate your interest and look forward to working with you.</p>
+
+      <div class="footer">
+        &copy; {{year}} Axinova. All rights reserved.
+      </div>
+    </div>
+  </body>
+</html>

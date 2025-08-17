@@ -1,0 +1,42 @@
+{
+  "name": "dakshyani",
+  "version": "1.0.0",
+  "main": "server.dakshyani.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.dakshyani.js",
+    "dev": "nodemon server.dakshyani.js",
+    "lint": "eslint . --ext .js --fix",
+    "test": "jest --runInBand",
+    "build": "echo 'No build step needed for Node.js'"
+  },
+  "author": "Nikhil",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.10.0",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.1.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "fs-extra": "^11.3.0",
+    "handlebars": "^4.7.8",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "multer": "^2.0.0",
+    "nodemailer": "^7.0.3",
+    "pino": "^9.7.0",
+    "zod": "^4.0.17",
+    "nodemon": "^3.1.10"
+  },
+  "devDependencies": {
+    "eslint": "^9.30.1",
+    "nodemon": "^3.1.10",
+    "pino-pretty": "^13.0.0"
+  }
+}

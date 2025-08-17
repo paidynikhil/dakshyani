@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your OTP - Axinova</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      color: #333333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      background-color: #e8f5ff;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .header-icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 20px;
+      color: #0066cc;
+    }
+
+    .otp-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: #000;
+      margin: 30px 0 20px;
+      text-align: center;
+    }
+
+    .otp-code {
+      font-size: 32px;
+      font-weight: bold;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      padding: 12px 40px;
+      border-radius: 4px;
+      display: inline-block;
+      letter-spacing: 4px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .info-text {
+      font-size: 14px;
+      color: #666;
+      margin: 20px auto;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .notice-text {
+      font-size: 16px;
+      color: #333;
+      margin: 30px 0;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .device-info {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .device-info-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 8px;
+    }
+
+    .device-info-label {
+      font-size: 14px;
+      color: #333;
+      margin-top: 5px;
+    }
+
+    .device-info-value {
+      font-size: 13px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .warning {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .help-links {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #eee;
+    }
+
+    .help-links a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #888;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 12h8"/>
+        <path d="M12 8v8"/>
+      </svg>
+    </div>
+
+    <h1 class="otp-title">Your one-time code is</h1>
+
+    <div style="text-align: center;">
+      <div class="otp-code">{{otp}}</div>
+      <p class="info-text">
+        Please verify you're really you by entering this<br>
+        4-digit code when you sign in. Just a heads up, this code will expire<br>
+        in {{validityMinutes}} minutes for security reasons.
+      </p>
+    </div>
+
+    <div class="notice-text">
+      We noticed you signed in from a<br>
+      new location or device
+    </div>
+
+    <div class="device-info">
+      <div class="device-info-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        <div class="device-info-label">Device:</div>
+        <div class="device-info-value">{{device}}</div>
+      </div>
+      <div class="device-info-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <div class="device-info-label">Location:</div>
+        <div class="device-info-value">{{location}}</div>
+      </div>
+      <div class="device-info-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <div class="device-info-label">Date</div>
+        <div class="device-info-value">{{datetime}}</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      If you didn't just try to sign in,<br>
+      please contact an administrator to change your credentials
+    </div>
+
+    <div class="help-links">
+      If you have any questions, contact our Website Guides.<br>
+      Or, visit our Help Center.
+    </div>
+
+    <div class="footer">
+      &copy; {{year}} Axinova. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>
