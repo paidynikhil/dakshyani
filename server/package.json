@@ -1,11 +1,11 @@
 {
   "name": "dakshyani",
   "version": "1.0.0",
-  "main": "server.dakshyani.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.dakshyani.js",
-    "dev": "nodemon server.dakshyani.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "lint": "eslint . --ext .js --fix",
     "test": "jest --runInBand",
     "build": "echo 'No build step needed for Node.js'"
