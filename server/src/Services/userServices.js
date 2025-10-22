@@ -41,13 +41,18 @@ export const userLogin = async (email, password, fcmToken) => {
     await user.save();
   }
 
-  const token = generateToken(user);
+  const { accessToken, refreshToken } = generateToken(user);
 
   return {
-    token,
-    userId: user._id,
-    name: user.name,
-    role: "User",
+    accessToken,
+    refreshToken,
+    user: {
+      _id: user._id,
+      name: user.name,
+      role: user.role,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+    },
   };
 };
 
@@ -83,4 +88,14 @@ export const toggleUserStatusService = async (id) => {
 
   user.status  = !user.status ;
   return await user.save();
+};
+
+export const getUserByIdService = async (userId) => {
+  const user = await User.findById(userId)
+    .select("-__v -updatedAt")
+    .lean();
+
+  if (!user) throw new Error("User not found");
+
+  return user;
 };

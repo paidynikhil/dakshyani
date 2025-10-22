@@ -7,32 +7,46 @@ export const handleControllerError = (res, error) => {
 
   if (error instanceof ZodError) {
     status = 400;
-    message = "Validation failed";
     errors = error.issues.map((issue) => ({
       path: issue.path.join("."),
       message: issue.message,
     }));
+    message = "Validation failed";
   } else if (error.name === "ValidationError") {
     status = 400;
-    message = "Validation failed";
     errors = Object.values(error.errors).map((err) => ({
       path: err.path,
       message: err.message,
     }));
+    message = "Validation failed";
   } else if (error.code === 11000) {
     const field = Object.keys(error.keyValue || {})[0];
     const value = error.keyValue?.[field];
     status = 409;
+    errors = [
+      {
+        path: field,
+        message: `Duplicate value '${value}' for field '${field}'`,
+      },
+    ];
     message = "Duplicate field value";
-    errors = [{ path: field, message: `Duplicate value '${value}' for field '${field}'` }];
   } else if (error.name === "CastError") {
     status = 400;
+    errors = [
+      {
+        path: error.path,
+        message: `Invalid value for '${error.path}'`,
+      },
+    ];
     message = "Invalid ID";
-    errors = [{ path: error.path, message: `Invalid value for '${error.path}'` }];
   } else if (error instanceof Error && error.message) {
     status = 400;
-    message = "Request error";
     errors = [{ path: null, message: error.message }];
+    message = error.message;
+  }
+
+  if (errors.length > 0) {
+    message = errors.map((err) => err.message).join(", ");
   }
 
   return res.status(status).json({

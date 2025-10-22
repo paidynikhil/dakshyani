@@ -3,12 +3,14 @@ import helmet from "helmet";
 import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
+import hpp from "hpp";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import compression from "compression";
 import { connectDB } from "./src/Config/db.js";
 import Router from "./src/Routes/index.js";
 import {apiLimiter} from "./src/Middlewares/rateLimit.js";
+import passport from "./src/Utils/passport.js";
 
 dotenv.config();
 
@@ -23,6 +25,10 @@ app.use(
     crossOriginResourcePolicy: false,
   })
 );
+
+app.use(passport.initialize());
+app.use(hpp());
+app.use(helmet());
 
 app.use(compression());
 const allowedOrigins = process.env.CORS_ORIGIN

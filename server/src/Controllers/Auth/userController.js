@@ -22,10 +22,13 @@ export const signInUser = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Login successful",
-      token: result.token,
-      user: { _id: result.userId, name: result.name, role: result.role },
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
+      user: result.user,
     });
   } catch (error) {
     return handleControllerError(res, error);
   }
 };
+
+
