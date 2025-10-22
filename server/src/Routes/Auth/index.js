@@ -39,7 +39,7 @@ router.get(
       return res.redirect("https://dakshyani.onrender.com/v1/auth/google?error=authentication_failed");
     }
 
-    const redirectUrl = `https://dakshyani.onrender.com?token=${req.user.token}&userId=${req.user.user._id}`;
+    const redirectUrl = `https://dakshyani.onrender.com?accessToken=${req.user.accessToken}&refreshToken=${req.user.refreshToken}&userId=${req.user.user._id}`;
     res.redirect(redirectUrl);
   }
 );
